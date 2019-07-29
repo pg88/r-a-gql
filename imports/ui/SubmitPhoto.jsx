@@ -25,19 +25,34 @@ const SEND_SUBMISSION = gql`
 
 class SubmitPhoto extends Component {
     constructor(props) {
-      super(props)
-      this.state = {
+      super(props);
+      this.state = this.getInitialState();
+    }
+    getInitialState() {
+      const initialState = {
         url: "",
         name: "",
         description: "",
         shortDescription: "",
-      }
+        disabledButton: true,
+        urlRegex: new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi),
+      };
+      return initialState;
     }
     onChange(event) {
       if (event.target.value) {
-        this.setState({ [event.target.name] : event.target.value })
+        /*if(event.target.name === "url") {
+          const isValidUrl = event.target.value.match(this.state.urlRegex);
+          if (isValidUrl === null) return false
+        }*/
+        this.setState({ [event.target.name] : event.target.value });
+        /*for (var key in this.state) {
+          this.setState({ disabledButton : !this.state[key]  });
+        }*/
       }
-
+    }
+    reset() {
+      this.setState(this.getInitialState());
     }
 
     render() {
@@ -64,6 +79,7 @@ class SubmitPhoto extends Component {
                       required
                       fullWidth
                       name="name"
+                      value={ this.state.name }
                       onChange={ this.onChange.bind(this)  }
                       id="title-required"
                       label="Title"
@@ -76,6 +92,7 @@ class SubmitPhoto extends Component {
                       label="URL"
                       name="url"
                       id="url-required"
+                      value={ this.state.url }
                       onChange={ this.onChange.bind(this)  }
                       placeholder="Please add a valid url please..."
                       margin="normal"
@@ -83,31 +100,44 @@ class SubmitPhoto extends Component {
                   <TextField
                       required
                       fullWidth
-                      name="shortDescription"
-                      id="short-required"
-                      label="Short Description"
                       multiline
-                      onChange={ this.onChange.bind(this)  }
+                      id="short-required"
+                      name="shortDescription"
+                      label="Short Description"
+                      value={ this.state.shortDescription }
+                      onChange={ this.onChange.bind(this) }
                       placeholder="Please add a catchy short description in 90 characters please..."
                       margin="normal"
                   />
                   <TextField
                       required
                       fullWidth
-                      name="description"
-                      id="description-required"
-                      onChange={ this.onChange.bind(this)  }
-                      label="Description"
                       multiline
+                      name="description"
+                      label="Description"
+                      id="description-required"
+                      value={ this.state.description }
+                      onChange={ this.onChange.bind(this) }
                       placeholder="Please add a catchy and long explained description please... "
                       margin="normal"
                   />
                   <Mutation
                       mutation={ SEND_SUBMISSION }
                       variables={{ url, name, description, shortDescription }}
+                      update={
+                        (store, { data }) => {
+                          if (data.createResolutions._id) {
+                            this.reset()
+                          }
+                        }
+                      }
                   >
                       { SendSubmission =>
-                          <Button variant="outlined" color="primary" onClick={ SendSubmission }>
+                          <Button variant="outlined"
+                                  color="primary"
+                                  disabled={ this.state.disabledButton }
+                                  onClick={ SendSubmission }
+                          >
                             SAVE
                           </Button>
                       }
