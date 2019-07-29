@@ -13,7 +13,7 @@
  
 ##### Run the application
  
- 1. Clone or download the repo application from the branch **dev**
+ 1. Clone or download the repo application from the branch **master** or **dev**
  2. Locate the repo or the downloaded folder on your local directory 
  3. On the root of the folder run this command **```npm install```**, this will install all the required dependencies
  4. Run **```npm run start```**, this will run the application on ```http://localhost:3000/```
