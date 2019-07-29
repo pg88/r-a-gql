@@ -5,9 +5,10 @@ import { getUser } from 'meteor/apollo'
 import hi from './schema'
 import resolvers from './resolvers'
 import ResolutionsSchema from "../../api/resolutions/Resolution.graphql"
+import OwnersSchema from "../../api/resolutions/Owners.graphql"
 
 //UPDATE 1
-const typeDefs = [ hi, ResolutionsSchema ];
+const typeDefs = [ hi, ResolutionsSchema, OwnersSchema ];
 
 const server = new ApolloServer({
       typeDefs,
