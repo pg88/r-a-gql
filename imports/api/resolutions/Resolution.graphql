@@ -18,6 +18,8 @@ type Mutation {
     createResolutions(name: String!, shortDescription: String!, ownerName: String! , email: String!, url: String!, description: String!, created: Date, likes: Int =0, , dislikes: Int =0) : Resolution!,
     updateVotes(id: String!): Resolution!,
     updateMisVotes(id: String!): Resolution!,
+    increaseVote(target: String!, votedOn: Date) : Votes!
+    increaseMisVote(target: String!, votedOn: Date) : Votes!
 }
 
 scalar Date

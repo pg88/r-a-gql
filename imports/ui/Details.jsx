@@ -35,11 +35,17 @@ const INCREASE_VOTES = gql`
     updateVotes(id: $id) {
       _id
     }
+    increaseVote(target: $id) {
+      _id
+    }
   }
 `
 const INCREASE_MISVOTES = gql`
   mutation UpdateMisVotes($id: String!) {
     updateMisVotes(id: $id) {
+      _id
+    }
+    increaseMisVote(target: $id) {
       _id
     }
   }

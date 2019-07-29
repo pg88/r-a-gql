@@ -1,5 +1,7 @@
 import Resolutions from './resolutions'
 import Owners from './owners'
+import Votes from './votes'
+import Misvotes from './misvotes'
 const res = Resolutions.find({}).fetch();
 
 export default {
@@ -32,6 +34,12 @@ export default {
         }
       });
       return Resolutions.findOne(id);
+    },
+    increaseVote(obj, { target }, context) {
+      return Votes.insert({ target: target, votedOn: Date.now() })
+    },
+    increaseMisVote(obj, { target }, context){
+      return Misvotes.insert({ target: target, votedOn: Date.now() })
     }
   }
 };

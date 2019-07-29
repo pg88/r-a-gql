@@ -1,0 +1,5 @@
+type Misvotes {
+    target: String!
+    votedOn: String!
+}
+

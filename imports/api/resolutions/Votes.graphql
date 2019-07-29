@@ -1,0 +1,5 @@
+type Votes {
+    target: String!
+    votedOn: String!
+}
+
