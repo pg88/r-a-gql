@@ -31,8 +31,6 @@ class SubmitPhoto extends Component {
         name: "",
         description: "",
         shortDescription: "",
-        likes:0,
-        dislikes:0
       }
     }
     onChange(event) {
@@ -43,16 +41,18 @@ class SubmitPhoto extends Component {
     }
 
     render() {
-      const { url, name, description, shortDescription, likes, dislikes } = this.state;
+      const { url, name, description, shortDescription } = this.state;
+      const styles = { padding: '16px' };
       return (
-        <React.Fragment>
+        <React.Fragment >
           <Grid container
+                style={ styles }
                 direction="row"
                 justify="center"
                 alignItems="center"
               >
             <Grid item xs={6}>
-              <Paper>
+              <Paper style={ styles }>
                 <Typography variant="subtitle2" align="left" color="textPrimary" gutterBottom>
                   Submit your entry
                 </Typography>

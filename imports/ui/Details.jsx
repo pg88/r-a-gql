@@ -49,9 +49,7 @@ class Details extends Component {
   }
   render() {
       const id = this.props.match.params.id
-      const styles = {
-        padding: '16px'
-      };
+      const styles = { padding: '16px' }
       return(
           <Query query={ DETAIL_QUERY } variables={{ id }}>
             {({ loading, error, data }) => {

@@ -13,7 +13,6 @@ export default {
   },
   Mutation: {
     createResolutions(obj, args, context) {
-      console.log("CREATERESOLUTIONS__", args);
       const resolutionId = Resolutions.insert(args);
       return Resolutions.findOne(resolutionId);
     },

@@ -12,7 +12,7 @@ type Resolution {
 }
 
 type Mutation {
-    createResolutions(name: String!, shortDescription: String!, url: String!, description: String!) : Resolution!,
+    createResolutions(name: String!, shortDescription: String!, url: String!, description: String!, likes: Int =0, , dislikes: Int =0) : Resolution!,
     updateVotes(id: String!): Resolution!,
     updateMisVotes(id: String!): Resolution!,
 }
