@@ -14,15 +14,19 @@ import utils  from '../../imports/utils/index';
 
 const Header = () => {
   const classes = utils.useStyles();
+
   return (
       <React.Fragment>
         <CssBaseline />
         <AppBar position="relative">
           <Toolbar>
-            <CameraIcon className={classes.icon} />
-            <Typography variant="h6" color="inherit" noWrap>
+            <CameraIcon className={classes.icon} edge="start" />
+            <Typography variant="h6" color="inherit" noWrap className={classes.title}>
               My Photo Voted  - ApolloGraphQL
             </Typography>
+            <Button variant="outlined" onClick={ () => Meteor.logout() }>
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
         <main>
@@ -38,12 +42,27 @@ const Header = () => {
               <div className={classes.heroButtons}>
                 <Grid container spacing={2} justify="center">
                   <Grid item>
+                    <Link to="/login">
+                      <Button variant="contained" color="primary">
+                        Login
+                      </Button>
+                    </Link>
+                  </Grid>
+                  <Grid item>
                     <Link to="/newEntry">
                       <Button variant="contained" color="primary">
                         Begin
                       </Button>
                     </Link>
                   </Grid>
+                  <Grid item>
+                    <Link to="/signup">
+                      <Button variant="contained" color="secondary">
+                        SIGN UP
+                      </Button>
+                    </Link>
+                  </Grid>
+
                 </Grid>
               </div>
             </Container>

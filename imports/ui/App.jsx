@@ -3,11 +3,15 @@ import { Link } from 'react-router-dom'
 import { Switch, Route } from 'react-router-dom'
 //COMPONENTS STUFF
 import Info from './Info.jsx';
+import Login from './Login.jsx'
 import Header from './Header.jsx';
+import SignUp from './SignUp.jsx'
 import Footer from './Footer.jsx';
 import Details from './Details.jsx'
 import PhotoList from './PhotoList.jsx';
 import SubmitPhoto from './SubmitPhoto.jsx'
+
+console.log("ACCOUNTS__", Accounts);
 
 const App = () => {
   return(
@@ -16,6 +20,8 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={ PhotoList } />
         <Route exact path="/info" component={ Info } />
+        <Route exact path="/signup" component={ SignUp } />
+        <Route exact path="/login" component={ Login } />
         <Route exact path="/newEntry" component={ SubmitPhoto } />
         <Route exact path="/details/:id" component={ Details } />
       </Switch>
