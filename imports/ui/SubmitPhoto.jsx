@@ -15,8 +15,8 @@ import utils  from '../../imports/utils/index';
 
 
 const SEND_SUBMISSION = gql`
-  mutation SendSubmission($name: String!, $shortDescription: String!, $url: String!, $description: String!) {
-    createResolutions(name: $name, shortDescription: $shortDescription, url: $url, description: $description) {
+  mutation SendSubmission($name: String!, $shortDescription: String!, $ownerName: String!, $email: String!,  $url: String!, $description: String!, $created: Date) {
+    createResolutions(name: $name, shortDescription: $shortDescription, ownerName: $ownerName, email: $email, url: $url, description: $description, created: $created) {
       _id
       name
     }
@@ -30,35 +30,42 @@ class SubmitPhoto extends Component {
     }
     getInitialState() {
       const initialState = {
-        url: '',
-        name: '',
-        ownerId: '',
-        description: '',
-        shortDescription: '',
-        disabledButton: true,
-        urlRegex: new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi),
+        formData: {
+          url: '',
+          name: '',
+          email: '',
+          ownerName: '',
+          description: '',
+          shortDescription: ''
+        },
+        submitted: false,
+        disabledButton: false,
       };
       return initialState;
     }
     onChange(event) {
-      if (event.target.value) {
-        /*if(event.target.name === "url") {
-          const isValidUrl = event.target.value.match(this.state.urlRegex);
-          if (isValidUrl === null) return false
-        }*/
-        this.setState({ [event.target.name] : event.target.value });
-        /*for (var key in this.state) {
-          this.setState({ disabledButton : !this.state[key]  });
-        }*/
-      }
+      const { formData } = this.state;
+      formData[event.target.name] = event.target.value;
+      this.setState({ formData });
+    }
+    handleSubmit() {
+
     }
     reset() {
       this.setState(this.getInitialState());
     }
 
     render() {
-      const { url, name, description, shortDescription } = this.state;
+      const { url, name, description, shortDescription, ownerName, email } = this.state.formData;
+      const { formData, disabledButton, submitted } = this.state;
+      const created = Date.now();
       const styles = { padding: '16px' };
+      let submmitedMessage;
+      if (submitted) {
+        submmitedMessage = <Typography variant="h6" align="center" color="textPrimary" gutterBottom>
+          Your entry was successfully submitted.
+        </Typography>
+      }
       return (
         <React.Fragment >
           <Grid container
@@ -72,77 +79,105 @@ class SubmitPhoto extends Component {
                 <Typography variant="subtitle2" align="left" color="textPrimary" gutterBottom>
                   Submit your entry
                 </Typography>
+
                 <Typography variant="caption" align="left" color="textPrimary" gutterBottom>
                   *Please complete all the fields on the form for your submission
                 </Typography>
+                { submmitedMessage }
                 <div>
-                  <TextField
-                      required
-                      fullWidth
-                      name="name"
-                      value={ this.state.name }
-                      onChange={ this.onChange.bind(this)  }
-                      id="title-required"
-                      label="Title"
-                      placeholder="Title "
-                      margin="normal"
-                  />
-                  <TextField
-                      required
-                      fullWidth
-                      label="URL"
-                      name="url"
-                      id="url-required"
-                      value={ this.state.url }
-                      onChange={ this.onChange.bind(this)  }
-                      placeholder="Please add a valid url please..."
-                      margin="normal"
-                  />
-                  <TextField
-                      required
-                      fullWidth
-                      multiline
-                      id="short-required"
-                      name="shortDescription"
-                      label="Short Description"
-                      value={ this.state.shortDescription }
-                      onChange={ this.onChange.bind(this) }
-                      placeholder="Please add a catchy short description in 90 characters please..."
-                      margin="normal"
-                  />
-                  <TextField
-                      required
-                      fullWidth
-                      multiline
-                      name="description"
-                      label="Description"
-                      id="description-required"
-                      value={ this.state.description }
-                      onChange={ this.onChange.bind(this) }
-                      placeholder="Please add a catchy and long explained description please... "
-                      margin="normal"
-                  />
-                  <Mutation
-                      mutation={ SEND_SUBMISSION }
-                      variables={{ url, name, description, shortDescription }}
-                      update={
+                  <ValidatorForm
+                      ref="form"
+                      onSubmit={ this.handleSubmit }
+                  >
+                    <TextValidator
+                        fullWidth
+                        name="email"
+                        label="Your Email"
+                        disabled={ submitted }
+                        value={ formData.email }
+                        onChange={ this.onChange.bind(this) }
+                        validators={['required', 'isEmail']}
+                        errorMessages={['This field is required', 'Email is not valid']}
+                    />
+                    <TextValidator
+                        fullWidth
+                        name="ownerName"
+                        label="Your Name"
+                        disabled={ submitted }
+                        value={ formData.ownerName }
+                        onChange={ this.onChange.bind(this) }
+                        validators={['required']}
+                        errorMessages={['This field is required']}
+                    />
+                    <TextValidator
+                        fullWidth
+                        name="name"
+                        disabled={ submitted }
+                        label="Your Photo Title"
+                        value={ formData.name }
+                        onChange={ this.onChange.bind(this) }
+                        validators={['required']}
+                        errorMessages={['This field is required']}
+                    />
+                    <TextValidator
+                        fullWidth
+                        name="url"
+                        label="Your photo URL"
+                        disabled={ submitted }
+                        value={ formData.url }
+                        onChange={ this.onChange.bind(this) }
+                        validators={['required', 'matchRegexp:(http[s]?://.*.(?:png|jpg|gif|svg|jpeg))']}
+                        errorMessages={['This field is required', 'URL image is not valid']}
+                    />
+                    <TextValidator
+                        disabled={ submitted }
+                        fullWidth
+                        multiline
+                        name="description"
+                        label="description"
+                        value={ formData.description }
+                        onChange={ this.onChange.bind(this) }
+                        validators={['required']}
+                        errorMessages={['This field is required']}
+                    />
+                    <TextValidator
+                        disabled={ submitted }
+                        fullWidth
+                        multiline
+                        name="shortDescription"
+                        label="shortDescription"
+                        value={ formData.shortDescription }
+                        onChange={ this.onChange.bind(this) }
+                        validators={['required']}
+                        errorMessages={['This field is required']}
+                    />
+
+                    <br/><br/>
+                    <Mutation
+                        mutation={ SEND_SUBMISSION }
+                        variables={{ url, name, description, shortDescription, ownerName, email, created }}
+                        update={
                         (store, { data }) => {
                           if (data.createResolutions._id) {
-                            this.reset()
+                            this.reset();
+                            this.setState({ submitted: true })
                           }
                         }
                       }
-                  >
+                    >
                       { SendSubmission =>
                           <Button variant="outlined"
                                   color="primary"
-                                  disabled={ this.state.disabledButton }
+                                  disabled={ disabledButton || submitted }
                                   onClick={ SendSubmission }
                           >
                             SAVE
                           </Button>
                       }
-                  </Mutation>
+                    </Mutation>
+
+                  </ValidatorForm>
+
                 </div>
               </Paper>
             </Grid>

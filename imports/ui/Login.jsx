@@ -29,7 +29,12 @@ class SignUp extends Component {
       this.setState({ formData });
     }
     handleSubmit() {
-      Meteor.loginWithPassword(this.state.formData)
+      Meteor.loginWithPassword(this.state.formData.email, this.state.formData.password, (error, result) => {
+        if (error) {
+          console.log(error)
+        }
+        console.log(result);
+      })
     }
     render() {
       const styles = { padding: '16px' };

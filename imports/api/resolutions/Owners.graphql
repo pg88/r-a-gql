@@ -1,0 +1,4 @@
+type Owners {
+    name: String!
+    email: String!
+}

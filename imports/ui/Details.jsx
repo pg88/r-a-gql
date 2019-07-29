@@ -22,6 +22,7 @@ const DETAIL_QUERY = gql`
         url
         likes
         dislikes
+        ownerName
         description
     }
   }
@@ -73,6 +74,10 @@ class Details extends Component {
                       <Typography variant="body1" gutterBottom>
                         { data.resolutionLookUp.description }
                       </Typography>
+                      <Typography variant="caption" gutterBottom>
+                        Submitted by { data.resolutionLookUp.ownerName }
+                      </Typography>
+                      <br/>
                       <Grid container spacing={2} justify="center">
                         <Grid item>
                           <Mutation mutation={ INCREASE_VOTES }

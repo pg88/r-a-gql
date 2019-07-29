@@ -1,5 +1,5 @@
 import Resolutions from './resolutions'
-
+import Owners from './owners'
 const res = Resolutions.find({}).fetch();
 
 export default {
@@ -14,6 +14,7 @@ export default {
   Mutation: {
     createResolutions(obj, args, context) {
       const resolutionId = Resolutions.insert(args);
+      Owners.insert({ email: args.email, name: args.ownerName });
       return Resolutions.findOne(resolutionId);
     },
     updateVotes(obj, {id}, context) {

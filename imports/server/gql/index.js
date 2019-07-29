@@ -9,14 +9,13 @@ import ResolutionsSchema from "../../api/resolutions/Resolution.graphql"
 //UPDATE 1
 const typeDefs = [ hi, ResolutionsSchema ];
 
-
 const server = new ApolloServer({
       typeDefs,
       resolvers,
       introspection: true,
       playground: true,
       context: async ({ req }) => ({
-        user:{}
+        user: {}
       })
 })
 

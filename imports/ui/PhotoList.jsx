@@ -58,9 +58,6 @@ const PhotoList = ({ data }) => {
                             View
                           </Button>
                         </Link>
-                        <Button size="small" color="primary">
-                          Edit
-                        </Button>
                       </CardActions>
                     </Card>
                   </Grid>

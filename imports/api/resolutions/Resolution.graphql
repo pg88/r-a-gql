@@ -2,18 +2,22 @@
 #createdAt
 
 type Resolution {
-    likes: Int!,
-    url: String!,
-    _id: String!,
-    name: String!,
-    dislikes: Int!,
-    ownerId: String!
+    likes: Int!
+    url: String!
+    _id: String!
+    name: String!
+    dislikes: Int!
+    email: String!
+    created: Date
+    ownerName: String!
     description: String!
     shortDescription: String!
 }
 
 type Mutation {
-    createResolutions(name: String!, shortDescription: String!, url: String!,  ownerId: String!, description: String!, likes: Int =0, , dislikes: Int =0) : Resolution!,
+    createResolutions(name: String!, shortDescription: String!, ownerName: String! , email: String!, url: String!, description: String!, created: Date, likes: Int =0, , dislikes: Int =0) : Resolution!,
     updateVotes(id: String!): Resolution!,
     updateMisVotes(id: String!): Resolution!,
 }
+
+scalar Date
