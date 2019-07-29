@@ -1,0 +1,18 @@
+#name
+#createdAt
+
+type Resolution {
+    _id: String!,
+    name: String!,
+    url: String!,
+    likes: Int!,
+    dislikes: Int!,
+    description: String!
+    shortDescription: String!
+}
+
+type Mutation {
+    createResolutions(name: String!, shortDescription: String!, url: String!, description: String!) : Resolution!,
+    updateVotes(id: String!): Resolution!,
+    updateMisVotes(id: String!): Resolution!,
+}
