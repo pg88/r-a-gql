@@ -36,7 +36,7 @@ const INCREASE_VOTES = gql`
       _id
     }
     increaseVote(target: $id) {
-      _id
+      target
     }
   }
 `
@@ -46,7 +46,7 @@ const INCREASE_MISVOTES = gql`
       _id
     }
     increaseMisVote(target: $id) {
-      _id
+      target
     }
   }
 `

@@ -1,4 +1,5 @@
 type Votes {
+    _id: String!
     target: String!
     votedOn: String!
 }

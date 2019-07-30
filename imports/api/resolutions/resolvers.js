@@ -2,15 +2,49 @@ import Resolutions from './resolutions'
 import Owners from './owners'
 import Votes from './votes'
 import Misvotes from './misvotes'
-const res = Resolutions.find({}).fetch();
+import { Promise } from "meteor/promise";
 
 export default {
   Query: {
     resolutions()  {
-      return res;
+      return Resolutions.find({}).fetch();
     },
     resolutionLookUp(obj, { _id }, context) {
       return Resolutions.findOne(_id);
+    },
+    mostVoted() {
+      const pipeline = [
+        {
+          $match: {
+            likes: { $gt: 12 }
+          }
+        },{
+          $group:{
+            _id: "$_id",
+            likes: { $max: "$likes" }, total: { $sum: "$likes" }
+          }
+        }
+      ];
+
+      const result = Promise.await(Resolutions.aggregate(pipeline).toArray());
+      return result[0];
+    },
+    mostMisVoted() {
+      const pipeline = [
+        {
+          $match: {
+            dislikes: { $gt: 12 }
+          }
+        },{
+          $group:{
+            _id: "$_id",
+            dislikes: { $max: "$dislikes" }, total: { $sum: "$dislikes" }
+          }
+        }
+      ];
+
+      const result = Promise.await(Misvotes.aggregate(pipeline).toArray());
+      return result[0];
     }
   },
   Mutation: {
@@ -23,7 +57,7 @@ export default {
       Resolutions.update(id, {
         $inc: {
           likes: +1
-        }
+        },
       });
       return Resolutions.findOne(id);
     },
@@ -36,10 +70,13 @@ export default {
       return Resolutions.findOne(id);
     },
     increaseVote(obj, { target }, context) {
-      return Votes.insert({ target: target, votedOn: Date.now() })
+      Votes.insert({ target: target, votedOn: Date.now() });
+      return Votes.findOne({ target: target });
+
     },
     increaseMisVote(obj, { target }, context){
-      return Misvotes.insert({ target: target, votedOn: Date.now() })
+      Misvotes.insert({ target: target, votedOn: Date.now() });
+      return Misvotes.findOne({ target: target });
     }
   }
 };

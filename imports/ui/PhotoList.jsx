@@ -20,6 +20,7 @@ import QUERY from '../../imports/api/query/resolutionsQuery';
 
 //COMPONENTS AND UTILS STUFF
 import ErrorView from './Error.jsx';
+import EntriesHighLights from './EntriesHighLights.jsx';
 import utils from '../../imports/utils/index';
 
 
@@ -32,6 +33,8 @@ const PhotoList = ({ data }) => {
   return(
       <React.Fragment>
         <CssBaseline />
+        <EntriesHighLights/>
+
         <main>
           <Container className={classes.cardGrid} maxWidth="md">
             {/* End hero unit */}

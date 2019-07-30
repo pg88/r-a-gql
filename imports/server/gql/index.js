@@ -7,9 +7,10 @@ import resolvers from './resolvers'
 import ResolutionsSchema from "../../api/resolutions/Resolution.graphql"
 import OwnersSchema from "../../api/resolutions/Owners.graphql"
 import VotesSchema from "../../api/resolutions/Votes.graphql"
+import MisVotesSchema from "../../api/resolutions/Misvotes.graphql"
 
 //UPDATE 1
-const typeDefs = [ hi, ResolutionsSchema, OwnersSchema, VotesSchema ];
+const typeDefs = [ hi, ResolutionsSchema, OwnersSchema, VotesSchema, MisVotesSchema ];
 
 const server = new ApolloServer({
       typeDefs,
@@ -21,12 +22,13 @@ const server = new ApolloServer({
       })
 })
 
-
-
 server.applyMiddleware({
   app: WebApp.connectHandlers,
   path: '/graphql'
 });
+
+
+
 
 
 WebApp.connectHandlers.use('/graphql', (req, res) => {
@@ -34,3 +36,8 @@ WebApp.connectHandlers.use('/graphql', (req, res) => {
     res.end()
   }
 })
+
+
+
+
+
