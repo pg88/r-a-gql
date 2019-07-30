@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import { Switch, Route } from 'react-router-dom'
 //COMPONENTS STUFF
 import Info from './Info.jsx';
@@ -11,20 +10,20 @@ import Details from './Details.jsx'
 import PhotoList from './PhotoList.jsx';
 import SubmitPhoto from './SubmitPhoto.jsx'
 
-console.log("ACCOUNTS__", Accounts);
-
 const App = () => {
   return(
     <div>
       <Header/>
-      <Switch>
-        <Route exact path="/" component={ PhotoList } />
-        <Route exact path="/info" component={ Info } />
-        <Route exact path="/signup" component={ SignUp } />
-        <Route exact path="/login" component={ Login } />
-        <Route exact path="/newEntry" component={ SubmitPhoto } />
-        <Route exact path="/details/:id" component={ Details } />
-      </Switch>
+      <div style={{ padding: '16px' }}>
+        <Switch>
+          <Route exact path="/" component={ PhotoList } />
+          <Route exact path="/info" component={ Info } />
+          <Route exact path="/signup" component={ SignUp } />
+          <Route exact path="/login" component={ Login } />
+          <Route exact path="/newEntry" component={ SubmitPhoto } />
+          <Route exact path="/details/:id" component={ Details } />
+        </Switch>
+      </div>
       <Footer/>
     </div>
   )

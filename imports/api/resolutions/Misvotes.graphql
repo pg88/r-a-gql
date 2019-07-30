@@ -1,0 +1,6 @@
+type Misvotes {
+    _id: String!
+    target: String!
+    votedOn: String!
+}
+
