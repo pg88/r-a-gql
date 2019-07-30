@@ -47,16 +47,22 @@ class EntriesHighLights extends Component {
                 {({ loading, error, data }) => {
                   if (loading) return <CircularProgress/>
                   if (error) return <ErrorView message={error}/>
-                    return(
-                        <Button
-                            color="primary"
-                            variant="outlined"
-                        >
-                          <Link to={`/details/${data.mostVoted._id}`}>
-                            All times's Most Voted
-                          </Link>
-                        </Button>
-                    )
+                  const hasData = data.mostVoted === null;
+                  return(
+                      <Button
+                        color="primary"
+                        variant="outlined"
+                        disabled={ hasData }
+                      >
+                          {
+                            !hasData ? (
+                                <Link to={`/details/${data.mostVoted._id}`}>
+                                  All times's Most Voted
+                                </Link>
+                            ) : `All times's Most Voted`
+                          }
+                      </Button>
+                  )
                   }
                 }
               </Query>
@@ -68,19 +74,20 @@ class EntriesHighLights extends Component {
                 {({ loading, error, data }) => {
                     if (loading) return <CircularProgress/>
                     if (error) return <ErrorView message={error}/>
+                    const hasData = data.mostMisVoted === null;
                     return(
                         <Button
                             color="secondary"
                             variant="outlined"
-                            disabled={ data.mostMisVoted ? data.mostMisVoted._id : true }
+                            disabled={ hasData }
                         >
                           {
-                            data.mostMisVoted  &&
-                              <Link to={`/details/${ data.mostVoted._id}`}>
-                                All time's Most MisVoted
-                              </Link>
+                            !hasData ? (
+                                <Link to={`/details/${data.mostMisVoted._id}`}>
+                                  All times's Most Misvoted
+                                </Link>
+                            ) : `All times's Most Misvoted`
                           }
-                          All time's Most MisVoted
                         </Button>
                     )
                   }

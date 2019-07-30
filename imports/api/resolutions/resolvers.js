@@ -16,7 +16,7 @@ export default {
       const pipeline = [
         {
           $match: {
-            likes: { $gt: 12 }
+            likes: { $gte: 50 }
           }
         },{
           $group:{
@@ -33,7 +33,7 @@ export default {
       const pipeline = [
         {
           $match: {
-            dislikes: { $gt: 12 }
+            dislikes: { $gte: 50 }
           }
         },{
           $group:{
@@ -42,8 +42,7 @@ export default {
           }
         }
       ];
-
-      const result = Promise.await(Misvotes.aggregate(pipeline).toArray());
+      const result = Promise.await(Resolutions.aggregate(pipeline).toArray());
       return result[0];
     }
   },

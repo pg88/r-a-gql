@@ -29,8 +29,6 @@ server.applyMiddleware({
 
 
 
-
-
 WebApp.connectHandlers.use('/graphql', (req, res) => {
   if (req.method === 'GET') {
     res.end()
