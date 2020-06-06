@@ -15,7 +15,7 @@
     "apollo-client": "^2.6.3",
     "apollo-client-preset": "^1.0.8",
     "apollo-link-context": "^1.0.18",
-    "apollo-server-express": "^2.7.1",
+    "apollo-server-express": "^2.14.2",
     "babel-plugin-inline-import": "^3.0.0",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^3.0.6",
